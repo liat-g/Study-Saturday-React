@@ -1,3 +1,5 @@
+//this is where the middleware the app uses i
+
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
