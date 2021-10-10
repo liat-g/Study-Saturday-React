@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import StudentsList from './StudentList'
 
 export default class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
       students: [],
+      selectedStudent: {}
     };
+    this.getStudents = this.getStudents.bind(this)
   }
-
   componentDidMount() {
     this.getStudents();
   }
 
-  async getStudents() {
+  async getStudents() { //need this to set state
     console.log('fetching');
     try {
       const { data } = await axios.get('/student');
@@ -23,25 +25,15 @@ export default class Main extends Component {
     }
   }
 
+  selectStudent(student){ //have to bind 'this' to pass it as props
+      return this.setState({
+          selectStudent: student,
+      })
+  }
+
+ 
+
   render() {
-    return (
-      <div>
-        <h1>Students</h1>
-        <table>
-          <tbody>
-            <tr>
-              <th>Name</th>
-            </tr>
-            {this.state.students.map(student => {
-              return (
-                <tr key={student.id}>
-                  <td>{student.fullName}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    );
+    <StudentsList students={this.state.students} selectStudent={this.selectStudent}/> //need to set a name to pass props
   }
 }
